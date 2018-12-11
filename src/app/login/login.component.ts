@@ -4,8 +4,6 @@ import { Title }     from '@angular/platform-browser';
 import { ApiService } from '../api.service';
 import { Router, CanActivate } from '@angular/router';
 import {ToastaService, ToastaConfig, ToastOptions, ToastData} from 'ngx-toasta';
-import { interval } from 'rxjs';
-import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-login',
@@ -44,11 +42,9 @@ export class LoginComponent implements OnInit {
       this.toastOptions.title="Success";
       this.toastOptions.msg="Loggedin successfully";
       this.toastaService.success(this.toastOptions);
-      interval(1000).pipe(
-        map((x) => { console.log(x); })
-      );
-      setTimeout(() => { console.log("delay"); }, 1000);
-      // this.router.navigate(['home']);
+      
+      setTimeout(() => { this.router.navigate(['home']); }, 2000);
+      
     }, 
     (error) => { // error path
       this.toastOptions.title="Error";
