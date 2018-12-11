@@ -3,6 +3,9 @@ import { DOCUMENT } from '@angular/common';
 import { Title }     from '@angular/platform-browser';
 import { ApiService } from '../api.service';
 import { Router, CanActivate } from '@angular/router';
+import {ToastaService, ToastaConfig, ToastOptions, ToastData} from 'ngx-toasta';
+import { interval } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-login',
@@ -11,22 +14,46 @@ import { Router, CanActivate } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
   headTitle = "Login";
-  pwdPattern1 = "/^(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,20}$/";
   pwdPattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$";
   model: any = {};
-  constructor( @Inject(DOCUMENT) private document: Document, private api: ApiService, public router: Router) { }
+  ToggleButton: boolean = true;
+  toastOptions:ToastOptions = {
+    title: "Please try again",
+    msg: "",
+    showClose: true,
+    timeout: 2000,
+    theme: 'bootstrap',
+    onAdd: (toast:ToastData) => {
+        // console.log('Toast ' + toast.id + ' has been added!');
+    },
+    onRemove: function(toast:ToastData) {
+        // console.log('Toast ' + toast.id + ' has been removed!');
+    }
+  };
+  constructor( @Inject(DOCUMENT) private document: Document, private api: ApiService, public router: Router,private toastaService:ToastaService, private toastaConfig: ToastaConfig) { }
 
   ngOnInit() {
-    this.document.body.classList.add('loginbody');
+    // this.document.body.classList.add('loginbody');
   }
   onSubmit() {
+    this.ToggleButton = false;
     var logindata = this.model;
     logindata = {username:"admin",password:"8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918"};
     this.api.login(logindata).subscribe((response) => {
-      console.log(response);
-      this.router.navigate(['home']);
+      this.ToggleButton = true;
+      this.toastOptions.title="Success";
+      this.toastOptions.msg="Loggedin successfully";
+      this.toastaService.success(this.toastOptions);
+      interval(1000).pipe(
+        map((x) => { console.log(x); })
+      );
+      setTimeout(() => { console.log("delay"); }, 1000);
+      // this.router.navigate(['home']);
     }, 
     (error) => { // error path
+      this.toastOptions.title="Error";
+      this.toastOptions.msg="Please try again";
+      this.toastaService.error(this.toastOptions);
       console.log(error);
     });
   }

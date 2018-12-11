@@ -1,3 +1,15 @@
+.loginbody {
+  /*background: #9CECFB;
+  background: -webkit-linear-gradient(to right, #0052D4, #65C7F7, #9CECFB);
+  background: linear-gradient(to right, #0052D4, #65C7F7, #9CECFB);*/
+  background: url('/assets/login-bg.jpg') 50% 50%/cover no-repeat;
+  /* display: table-cell; */
+  height: 100%;
+  padding: 1.375rem 0;
+  vertical-align: middle;
+  width: 100%;
+  min-height: 100vh;
+}
 .card-signin {
   border: 0;
   border-radius: 1rem;
