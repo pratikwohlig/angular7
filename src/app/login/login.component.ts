@@ -41,16 +41,26 @@ export class LoginComponent implements OnInit {
       this.ToggleButton = true;
       this.toastOptions.title="Success";
       this.toastOptions.msg="Loggedin successfully";
-      this.toastaService.success(this.toastOptions);
+      this.toastaService.success({
+        title: "Success",
+        msg: "Loggedin successfully",
+        showClose: true,
+        timeout: 2000,
+        theme: 'bootstrap'});
       
       setTimeout(() => { this.router.navigate(['home']); }, 2000);
       
     }, 
     (error) => { // error path
-      this.toastOptions.title="Error";
-      this.toastOptions.msg="Please try again";
-      this.toastaService.error(this.toastOptions);
-      console.log(error);
+      // this.toastOptions.title="Error";
+      // this.toastOptions.msg="Please try again";
+      this.toastaService.error({
+        title: "Error",
+        msg: "Please try again",
+        showClose: true,
+        timeout: 2000,
+        theme: 'bootstrap'});
+      // console.log(error);
     });
   }
 }
