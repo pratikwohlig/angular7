@@ -6,7 +6,17 @@
   </div>
 
   <ul class="list-unstyled components">
-      <li class="active">
+    <li *ngFor="let menu of navigation"  routerLink-active="active">
+        <a routerLink="{{menu.anchor}}" *ngIf="menu.anchor">{{menu.name}}</a>
+        <a href="{{menu.link}}" *ngIf="menu.link">{{menu.name}}</a>
+        <ul class="collapse list-unstyled" *ngIf="menu.subnav!='';">
+          <li ng-repeat="submenu in menu.subnav" routerLink-active="active">{{submenu.anchor}}
+            <a routerLink="{{submenu.anchor}}" *ngIf="submenu.anchor">{{submenu.name}}</a>
+            <a routerLink="{{submenu.link}}" *ngIf="submenu.link">{{submenu.name}}</a>
+          </li>
+        </ul>
+    </li>
+      <!-- <li class="active">
           <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
               <i class="fa fa-home"></i>
               Home
@@ -22,7 +32,7 @@
                   <a href="#">Home 3</a>
               </li>
           </ul>
-      </li>
+      </li> -->
   </ul>
 
 </nav>
